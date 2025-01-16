@@ -9,9 +9,9 @@ movie=$3
 
 if [[ $movie -eq 1 ]]
 then
-	term="$(rg -C 3 "$quote" ./movies/"$name"/*.srt | head | grep -e "-->")"
+	term="$(rg -C 3 "$quote" ./subtitles/movies/"$name"/*.srt | head | grep -e "-->")"
 else
-	term="$(rg -C 3 "$quote" ./series/"$name"/*.srt | head | grep -e "-->")"
+	term="$(rg -C 3 "$quote" ./subtitles/series/"$name"/*.srt | head | grep -e "-->")"
 fi
 
 awk -F , '{print $1}' <<< "${term}"
