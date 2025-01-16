@@ -1,2 +1,4 @@
 subtitles
 dist
+.svelte-kit/
+.vite
