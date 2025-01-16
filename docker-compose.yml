@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend-builder:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app  # So we can cache node_modules or if we want local dev
+    command: >
+      sh -c "cd frontend 
+             && npm install 
+             && npm run build
+             && cp -r dist ../dist"
+  nginx:
+    image: nginx:stable-alpine
+    container_name: "myapp-nginx"
+    depends_on:
+      - frontend-builder
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./dist:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  go:
+    image: myapp-go:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: "myapp-go"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
