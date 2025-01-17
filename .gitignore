@@ -2,3 +2,4 @@ subtitles
 dist
 .svelte-kit/
 .vite
+frontend/node_modules
