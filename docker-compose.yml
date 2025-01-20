@@ -15,11 +15,20 @@ services:
     depends_on:
       - frontend-builder
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./dist:/usr/share/nginx/html:ro
+      - ./backend/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend/dist:/usr/share/nginx/html:ro
     ports:
       - "80:80"
     restart: unless-stopped
+
+  mongodb:
+    image: mongo
+    container_name: linefinder-mongodb
+    depends_on:
+      - frontend-builder
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root # Used for placeholder
+      MONGO_INITDB_ROOT_PASSWORD: example
 
   go:
     image: myapp-go:latest
